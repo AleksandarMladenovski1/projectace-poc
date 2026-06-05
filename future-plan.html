@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectAce — Future Plan</title>
+  <style>
+    :root { --bg:#0f1419; --surface:#1a2332; --surface2:#243044; --text:#e7ecf3; --muted:#8b9cb3;
+      --accent:#6366f1; --done:#22c55e; --todo:#f59e0b; --border:#2d3a4f; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:"Segoe UI",system-ui,sans-serif; background:var(--bg); color:var(--text);
+      line-height:1.6; padding:2rem 1.5rem 4rem; max-width:900px; margin:0 auto; }
+    h1 { font-size:1.6rem; } .subtitle { color:var(--muted); margin:0.5rem 0 1rem; }
+    h2 { font-size:1.1rem; margin:2rem 0 0.75rem; color:#fff; border-left:4px solid var(--accent); padding-left:0.6rem; }
+    h3 { font-size:0.9rem; color:var(--muted); margin:1rem 0 0.5rem; text-transform:uppercase; letter-spacing:0.04em; }
+    p,li { font-size:0.92rem; } ul { margin:0.5rem 0 1rem 1.25rem; } li { margin-bottom:0.35rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1rem 1.15rem; margin:0.75rem 0; }
+    .card.done { border-color:rgba(34,197,94,0.35); background:rgba(34,197,94,0.06); }
+    .card.future { border-color:rgba(245,158,11,0.35); background:rgba(245,158,11,0.06); }
+    table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:0.75rem 0; }
+    th,td { border:1px solid var(--border); padding:0.5rem 0.65rem; text-align:left; }
+    th { background:var(--surface2); color:var(--muted); }
+    code { font-family:Consolas,monospace; font-size:0.85em; background:var(--surface2); padding:0.1rem 0.35rem; border-radius:4px; }
+    .badge { display:inline-block; font-size:0.72rem; padding:0.2rem 0.55rem; border-radius:999px; margin-right:0.35rem; }
+    .badge.done { background:rgba(34,197,94,0.2); color:#86efac; }
+    .badge.todo { background:rgba(245,158,11,0.2); color:#fcd34d; }
+    a { color:#a5b4fc; } footer { margin-top:2rem; color:var(--muted); font-size:0.85rem; border-top:1px solid var(--border); padding-top:1rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>ProjectAce — Future Plan</h1>
+  <p class="subtitle">POC is live in <code>p1/</code> (Flask + SQLite + static UI). This document lists what exists today and what remains for a full production implementation.</p>
+  <p><span class="badge done">POC shipped</span> <span class="badge todo">Full plan — not started</span></p>
+</header>
+
+<section class="card done">
+  <h2 style="margin-top:0;border-color:var(--done)">What the POC includes today</h2>
+  <p><strong>Run:</strong> <code>python run.py</code> → <a href="http://localhost:5001">http://localhost:5001</a> · Manual: <a href="/docs/manual">/docs/manual</a></p>
+  <h3>Stack</h3>
+  <ul>
+    <li>Python 3.10+, Flask, Flask-SQLAlchemy, Flask-JWT-Extended, SQLite</li>
+    <li>Single-page UI in <code>static/</code> (HTML + CSS + vanilla JS)</li>
+    <li>Seed users, projects, tasks; pytest smoke tests</li>
+  </ul>
+  <h3>Features implemented</h3>
+  <ul>
+    <li><strong>Auth:</strong> JWT login; roles Admin, Manager, Employee</li>
+    <li><strong>RBAC:</strong> Project-scoped access; employees move only assigned tasks</li>
+    <li><strong>Projects:</strong> List, create (API), open board from table</li>
+    <li><strong>Kanban:</strong> To Do / In Progress / Done; drag-and-drop with optimistic UI</li>
+    <li><strong>Tasks:</strong> Add task on board; move via <code>PATCH /tasks/:id/move</code></li>
+    <li><strong>Dashboard:</strong> Stat cards + canvas bar charts (status, priority)</li>
+    <li><strong>Employees:</strong> List (Admin)</li>
+    <li><strong>Activity log:</strong> Recent entries</li>
+    <li><strong>Notifications:</strong> API + DB on assign (no inbox UI)</li>
+  </ul>
+  <h3>Demo accounts</h3>
+  <table>
+    <tr><th>Role</th><th>Email</th><th>Password</th></tr>
+    <tr><td>Admin</td><td>admin@projectace.local</td><td>admin123</td></tr>
+    <tr><td>Manager</td><td>manager@projectace.local</td><td>manager123</td></tr>
+    <tr><td>Employee</td><td>employee@projectace.local</td><td>employee123</td></tr>
+  </table>
+</section>
+
+<section class="card future">
+  <h2 style="margin-top:0;border-color:var(--todo)">Full implementation — still to do</h2>
+  <p>Original vision: production SaaS with <strong>React + Tailwind</strong>, <strong>Node.js + Express</strong>, <strong>PostgreSQL + Prisma</strong>, Docker Compose.</p>
+
+  <h3>1. Platform &amp; architecture</h3>
+  <ul>
+    <li>Split <code>client/</code> (Vite + React + React Router) and <code>server/</code> (Express)</li>
+    <li>PostgreSQL with Prisma migrations and enums</li>
+    <li>Docker Compose for local Postgres (+ optional Redis)</li>
+    <li>Environment-based config, structured logging, health checks</li>
+  </ul>
+
+  <h3>2. Auth &amp; security</h3>
+  <ul>
+    <li>Refresh tokens, secure cookie options, password reset flow</li>
+    <li>Rate limiting on login; audit all permission denials</li>
+    <li>Protected React routes with role-based redirects</li>
+  </ul>
+
+  <h3>3. Projects &amp; tasks (product completeness)</h3>
+  <ul>
+    <li>Full project CRUD UI (edit, archive, deadlines, manager assignment)</li>
+    <li>Project membership UI; invite/remove members</li>
+    <li>Task detail slide-over/modal (edit title, description, priority, assignee, deadline)</li>
+    <li>Reorder tasks within column; persist <code>position</code> on server</li>
+    <li>Filters and search on task list</li>
+  </ul>
+
+  <h3>4. Kanban &amp; real-time</h3>
+  <ul>
+    <li>@dnd-kit (or equivalent) in React with accessible drag-and-drop</li>
+    <li>Socket.io rooms per project: <code>task:moved</code>, <code>task:updated</code></li>
+    <li>Optimistic UI with rollback on API failure (POC has basic version in static JS)</li>
+  </ul>
+
+  <h3>5. Dashboard &amp; reporting</h3>
+  <ul>
+    <li>Chart.js (or react-chartjs-2) for status/priority/overdue trends</li>
+    <li>Manager-scoped vs org-wide dashboard views</li>
+    <li>PDF project report export (server-side pdfkit)</li>
+  </ul>
+
+  <h3>6. Notifications &amp; activity</h3>
+  <ul>
+    <li>In-app notification bell with unread count</li>
+    <li>Deadline reminder cron (e.g. 48h before due)</li>
+    <li>Rich activity log (actor, action, entity link, filters)</li>
+  </ul>
+
+  <h3>7. UX polish</h3>
+  <ul>
+    <li>Loading skeletons, empty states, toast errors</li>
+    <li>Responsive sidebar layout; professional SaaS visual design</li>
+    <li>Expanded user manual aligned with production UI</li>
+  </ul>
+
+  <h3>8. Quality</h3>
+  <ul>
+    <li>Broader API integration tests; E2E (Playwright) for Kanban and RBAC</li>
+    <li>CI pipeline (lint, test, build)</li>
+  </ul>
+</section>
+
+<footer>
+  <p><a href="http://localhost:5001">← Back to app</a> · <a href="/docs/manual">User manual</a> · <a href="/docs/developer-guide">Developer guide</a> · <code>p1/future-plan.html</code></p>
+</footer>
+</body>
+</html>

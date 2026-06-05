@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ProjectAce — User Manual</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.6; color: #1e293b; }
+    h1 { color: #4f46e5; } h2 { margin-top: 2rem; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; }
+    code, pre { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    pre { padding: 1rem; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #cbd5e1; padding: 0.5rem; text-align: left; }
+    th { background: #f8fafc; }
+    .tip { background: #ecfdf5; border-left: 4px solid #22c55e; padding: 0.75rem 1rem; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <h1>ProjectAce — User Manual (POC)</h1>
+  <p>Lightweight SaaS project management: projects, Kanban tasks, dashboard, role-based access.</p>
+
+  <h2>1. Getting started</h2>
+  <ol>
+    <li>Start the server (see README in <code>p1/</code>).</li>
+    <li>Open <a href="http://localhost:5001">http://localhost:5001</a></li>
+    <li>Sign in with a demo account below.</li>
+  </ol>
+
+  <h2>2. Demo accounts</h2>
+  <table>
+    <tr><th>Role</th><th>Email</th><th>Password</th></tr>
+    <tr><td>Admin</td><td>admin@projectace.local</td><td>admin123</td></tr>
+    <tr><td>Manager</td><td>manager@projectace.local</td><td>manager123</td></tr>
+    <tr><td>Employee</td><td>employee@projectace.local</td><td>employee123</td></tr>
+  </table>
+
+  <h2>3. Roles</h2>
+  <ul>
+    <li><strong>Admin</strong> — Full access: all projects, employees list, activity log.</li>
+    <li><strong>Manager</strong> — Own projects, create tasks, move any task on the board.</li>
+    <li><strong>Employee</strong> — View member projects; drag only <em>assigned</em> tasks on Kanban.</li>
+  </ul>
+
+  <h2>4. Screens</h2>
+  <h3>Dashboard</h3>
+  <p>Stat cards (projects, tasks, completed, overdue) and bar charts for status and priority.</p>
+  <h3>Projects</h3>
+  <p>List of projects you can access. Click <strong>Board</strong> to open Kanban.</p>
+  <h3>Kanban board</h3>
+  <p>Three columns: <strong>To Do</strong>, <strong>In Progress</strong>, <strong>Done</strong>. Drag cards between columns to update status. Managers/Admins can add tasks.</p>
+  <h3>Employees (Admin only)</h3>
+  <p>View team members and departments.</p>
+  <h3>Activity</h3>
+  <p>Recent system actions (create project, move task, etc.).</p>
+
+  <h2>5. Testing checklist</h2>
+  <div class="tip">
+    <ol>
+      <li>Login as Admin → dashboard shows numbers.</li>
+      <li>Open Kanban → drag a task to another column → refresh: status persists.</li>
+      <li>Login as Employee → try moving someone else's task (should fail via API).</li>
+      <li>Run automated tests: <code>pytest tests/</code> from <code>p1/</code> with venv active.</li>
+    </ol>
+  </div>
+
+  <h2>6. Install &amp; run (summary)</h2>
+  <pre>cd p1
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
+python run.py</pre>
+  <p><a href="/">← Back to app</a></p>
+</body>
+</html>

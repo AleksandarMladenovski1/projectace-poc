@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# Secrets & local DB
+.env
+.env.local
+*.db
+
+# Tests / tooling
+.pytest_cache/
+htmlcov/
+.coverage
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Local-only docs (not published)
+docs/developer-guide.html
+
+# Abandoned full-stack scaffold (POC uses Flask in app/)
+server/
+instance/

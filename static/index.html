@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectAce — POC</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div id="login-screen">
+    <h1>ProjectAce</h1>
+    <p>SaaS project management POC — Kanban, dashboard, RBAC</p>
+    <form id="login-form">
+      <input id="email" type="email" placeholder="Email" value="admin@projectace.local" required />
+      <input id="password" type="password" placeholder="Password" value="admin123" required />
+      <button type="submit">Sign in</button>
+      <p id="login-err" class="err"></p>
+    </form>
+    <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">
+      Demo: admin / manager / employee @projectace.local — password *123<br>
+      <a href="/docs/manual" style="color:#a5b4fc">User manual</a> ·
+      <a href="/docs/developer-guide" style="color:#a5b4fc">Developer guide</a>
+    </p>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>ProjectAce</h2>
+        <nav>
+          <a data-view="dashboard" class="active">Dashboard</a>
+          <a data-view="projects">Projects</a>
+          <a data-view="kanban">Kanban board</a>
+          <a data-view="employees" id="nav-employees">Employees</a>
+          <a data-view="activity">Activity</a>
+          <a href="/docs/manual">User manual</a>
+          <a href="/docs/developer-guide">Developer guide</a>
+        </nav>
+        <button id="logout-btn" class="secondary" style="margin-top:2rem">Logout</button>
+      </aside>
+      <main class="main">
+        <div class="topbar">
+          <h1 id="page-title">Dashboard</h1>
+          <span id="user-label"></span>
+        </div>
+
+        <section id="view-dashboard" class="view">
+          <div class="stats">
+            <div class="stat-card"><span>Active projects</span><strong id="stat-projects">0</strong></div>
+            <div class="stat-card"><span>Total tasks</span><strong id="stat-tasks">0</strong></div>
+            <div class="stat-card"><span>Completed</span><strong id="stat-done">0</strong></div>
+            <div class="stat-card"><span>Overdue</span><strong id="stat-overdue">0</strong></div>
+          </div>
+          <div class="chart-row">
+            <div class="chart-box"><canvas id="chart-status" width="400" height="180"></canvas><p style="color:var(--muted);font-size:0.8rem">Tasks by status</p></div>
+            <div class="chart-box"><canvas id="chart-priority" width="400" height="180"></canvas><p style="color:var(--muted);font-size:0.8rem">Tasks by priority</p></div>
+          </div>
+        </section>
+
+        <section id="view-projects" class="view hidden">
+          <table><thead><tr><th>Name</th><th>Status</th><th>Deadline</th><th></th></tr></thead>
+            <tbody id="projects-list"></tbody></table>
+        </section>
+
+        <section id="view-kanban" class="view hidden">
+          <select id="project-select"></select>
+          <div style="display:flex;gap:0.5rem;margin:1rem 0">
+            <input id="new-task-title" placeholder="New task title" style="flex:1;margin:0" />
+            <button id="add-task-btn" style="width:auto">Add task</button>
+          </div>
+          <div class="kanban">
+            <div class="column"><h3>To Do</h3><div id="col-TODO"></div></div>
+            <div class="column"><h3>In Progress</h3><div id="col-IN_PROGRESS"></div></div>
+            <div class="column"><h3>Done</h3><div id="col-DONE"></div></div>
+          </div>
+        </section>
+
+        <section id="view-employees" class="view hidden">
+          <table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th></tr></thead>
+            <tbody id="employees-table"></tbody></table>
+        </section>
+
+        <section id="view-activity" class="view hidden">
+          <ul id="activity-list"></ul>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
